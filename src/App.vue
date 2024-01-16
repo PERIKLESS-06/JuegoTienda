@@ -18,9 +18,6 @@
               <router-link to="/estate/RegistroClientes" class="nav-link" @click="closeNavbar()">Registro Clientes</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/about" class="nav-link" @click="closeNavbar()">Alquileres</router-link>
-            </li>
-            <li class="nav-item">
               <router-link to="/about" class="nav-link" @click="closeNavbar()">Consulta Alquilere</router-link>
             </li>
           </ul>

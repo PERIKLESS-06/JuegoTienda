@@ -29,7 +29,6 @@
               <img :src="game.Imagen" class="card-img-top" alt="Game Image">
               <div class="card-body">
                 <h5 class="card-title">{{ game.Nombre }}</h5>
-                <p class="card-text">{{ game.Precio }} Dolares</p>
               </div>
               <div class="card-footer">
                 <button @click="rentGame(game)" class="btn btn-primary">Alquilar</button>
@@ -100,19 +99,14 @@ export default {
     rentGame(game) {
       Swal.fire({
         title: 'Alquilar Juego',
-        text: `¿Deseas alquilar ${game.Nombre} por $${game.Precio}?`,
+        text: `¿Deseas alquilar ${game.Nombre} ?`,
         icon: 'info',
         showCancelButton: true,
         confirmButtonText: 'Alquilar',
         cancelButtonText: 'Cancelar',
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire(
-            'Juego Alquilado',
-            `Has alquilado ${game.Nombre} con éxito.`,
-            'success'
-          );
-          // Agrega tu lógica de alquiler aquí
+          this.redirectToAlquileres(game.Nombre, new Date().toISOString().split('T')[0])
         }
       });
     },
@@ -129,6 +123,10 @@ export default {
     selectPlatform(platform) {
       this.platformFilter = platform;
       this.activeIndex = 0; // Reiniciar el índice al cambiar de plataforma
+    },
+    redirectToAlquileres(nombre, fecha) {
+      // Ajusta la lógica de redirección según la estructura de tus rutas
+      this.$router.push({ name: 'Alquileres', query: { nombre, fecha } });
     },
   },
 };
