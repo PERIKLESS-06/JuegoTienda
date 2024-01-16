@@ -1,3 +1,0 @@
-# RetoSophos
-# TiendaJuegos
-# TiendaJuegos
