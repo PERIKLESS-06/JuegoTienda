@@ -18,6 +18,69 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
 
+  getMostFrequentCustomer(_, res) {
+    return Alquiler
+      .findAll({
+        attributes: ['cliente_id', [Sequelize.fn('COUNT', 'cliente_id'), 'count']],
+        group: ['cliente_id'],
+        order: [[Sequelize.literal('count'), 'DESC']],
+        limit: 1,
+        include: [Cliente]
+      })
+      .then(result => res.status(200).send(result))
+      .catch(error => res.status(400).send(error));
+  },
+
+  getMostRentedGame(_, res) {
+    return Alquiler
+      .findAll({
+        attributes: ['juego_id', [Sequelize.fn('COUNT', 'juego_id'), 'count']],
+        group: ['juego_id'],
+        order: [[Sequelize.literal('count'), 'DESC']],
+        limit: 1,
+        include: [Juego]
+      })
+      .then(result => res.status(200).send(result))
+      .catch(error => res.status(400).send(error));
+  },
+
+  rentGame(req, res) {
+    const { cliente_id, juego_id, FechaAlquiler, FechaEntrega, Precio } = req.body;
+
+    return Alquiler
+      .create({
+        cliente_id,
+        juego_id,
+        FechaAlquiler,
+        FechaEntrega,
+        Precio
+      })
+      .then(alquiler => {
+        // Aquí puedes implementar la lógica para generar la prueba de compra
+        // Puedes devolver la prueba de compra en la respuesta
+        res.status(201).send(alquiler);
+      })
+      .catch(error => res.status(400).send(error));
+  },
+
+  getDailySales(_, res) {
+    const today = new Date();
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+    return Alquiler
+      .findAll({
+        where: {
+          FechaAlquiler: {
+            [Sequelize.Op.between]: [startOfDay, endOfDay]
+          }
+        },
+        include: [Juego]
+      })
+      .then(result => res.status(200).send(result))
+      .catch(error => res.status(400).send(error));
+  },
+
   // Obtener la lista de todos los alquileres
   list(_, res) {
     return Alquiler
