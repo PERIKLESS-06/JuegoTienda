@@ -21,13 +21,12 @@
                                 placeholder="Ingresar El nombre del director">
                             <input type="text" class="form-control sizeText mb-3" v-model="productor"
                                 placeholder="Ingresar El nombre del Productor">
-                            <select class="form-control sizeText mb-3" v-model="plataforma">
+                            <select class="form-select sizeText mb-3" v-model="plataforma">
                                 <option value="" disabled selected hidden>Selecciona la plataforma</option>
                                 <option value="PlayStation">PlayStation</option>
-                                <option value="xbox">Xbox</option>
-                                <option value="nintendo">Nintendo</option>
+                                <option value="Xbox">Xbox</option>
+                                <option value="Nintendo">Nintendo</option>
                                 <option value="PC">Pc</option>
-                                <!-- Agrega más opciones según sea necesario -->
                             </select>
 
                             <!-- Usa un campo de entrada de fecha nativo -->
@@ -68,7 +67,8 @@
                                     <td>Eliminar</td>
                                 </tr>
                             </thead>
-                            <tbody id="dataResult">
+                            <tbody id="
+                            3t">
                                 <!-- Aqui llega la data de la API -->
                                 <tr v-for="item in listData" :key="item.id">
                                     <td>{{ item.Nombre }}</td>
@@ -81,8 +81,8 @@
                                     <td>{{ item.FechaLanzamiento }}</td>
                                     <td>{{ item.Imagen }}</td>
                                     <!-- boton para obtener el id de cada registro -->
-                                    <td><button @click="findByid(item.id)">Editar</button></td>
-                                    <td><button @click="deleteById(item.id)">Eliminar</button></td>
+                                    <td><button @click="findByid(item.id)" class="btn btn-info">Editar</button></td>
+                                    <td><button @click="deleteById(item.id)" class="btn btn-danger">Eliminar</button></td>
                                 </tr>
                             </tbody>
                         </table>

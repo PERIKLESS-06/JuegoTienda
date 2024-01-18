@@ -22,6 +22,8 @@
           <button @click="selectPlatform('pc')" class="btn btn-secondary">PC</button>
         </div>
 
+        <input type="hidden" v-model="id">
+        
         <div class="d-flex justify-content-between align-items-center">
           <button @click="prevSlide" class="btn btn-secondary align-self-center" style="margin-right: 30px;">Anterior</button>
           <div class="card-container d-flex flex-wrap justify-content-center">

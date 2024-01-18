@@ -14,17 +14,23 @@ const routes = [
   },
   
   {
-path: '/estate/RegistroClientes',
-name: 'RegistroClientes',   
-component: () => import('../views/estate/RegistroClientes.vue')
+    path: '/estate/RegistroClientes',
+    name: 'RegistroClientes',   
+    component: () => import('../views/estate/RegistroClientes.vue')
   },
 
-    {
-      path: '/estate/Alquileres',
-      name: 'Alquileres',
-      component: () => import('../views/estate/Alquileres.vue')
-    },
+  {
+    path: '/estate/Alquileres',
+    name: 'Alquileres',
+    component: () => import('../views/estate/Alquileres.vue')
+  },
 
+  {
+    path: '/estate/ConsultaAlquiler',
+    name: 'ConsultaAlquiler',
+    component: () => import('../views/estate/ConsultaAlquiler.vue')
+  },
+  
 ]
 
 const router = createRouter({

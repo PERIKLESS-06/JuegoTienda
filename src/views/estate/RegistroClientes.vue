@@ -13,10 +13,16 @@
                             <input type="text" class="form-control sizeText mb-3" v-model="nombres" placeholder="Nombres">
                             <input class="form-control sizeText mb-3" v-model="apellidos" placeholder="Apellidos">
                             <input type="number" class="form-control sizeText mb-3" v-model="edad" placeholder="Edad">
-                            <input type="text" class="form-control sizeText mb-3" v-model="tipoDocumento"
-                                placeholder="Tipo de Documento">
+
+                            <select class="form-select sizeText mb-3" v-model="tipoDocumento">
+                                <option value="" disabled selected hidden>Tipo Documento</option>
+                                <option value="C.C">C.C</option>
+                                <option value="T.I">T.I</option>
+                                <option value="DNI">DNI</option>
+                                <option value="PASAPORTE">PASAPORTE</option>
+                            </select>
                             <input type="text" class="form-control sizeText mb-3" v-model="numeroDocumento"
-                                placeholder="numero de Documento">
+                                placeholder="Numero de Documento">
                             <input type="text" class="form-control sizeText mb-3" v-model="email" placeholder="Email">
                             <input type="text" class="form-control sizeText mb-3" v-model="telefono" placeholder="Telefono">
 
@@ -62,8 +68,8 @@
                                     <td>{{ item.Email }}</td>
                                     <td>{{ item.Telefono}}</td>
                                     <!-- boton para obtener el id de cada registro -->
-                                    <td><button @click="findByid(item.id)">Editar</button></td>
-                                    <td><button @click="deleteById(item.id)">Eliminar</button></td>
+                                    <td><button @click="findByid(item.id)" class="btn btn-info">Editar</button></td>
+                                    <td><button @click="deleteById(item.id)" class="btn btn-danger">Eliminar</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -110,13 +116,13 @@ export default {
         },
 
         findByid: function (id) {
-            axios.get('http://localhost:3000/api/cliente/find/' + id).then(result => {
+            axios.get('http://localhost:3000/api/cliente/findById/' + id).then(result => {
                 this.id = result.data.id;
                 this.nombres = result.data.Nombres;
                 this.apellidos = result.data.Apellidos;
                 this.edad = result.data.Edad;
                 this.tipoDocumento = result.data.TipoDocumento;
-                this.numeroDocumento = result.data.Numerodocumento;
+                this.numeroDocumento = result.data.NumeroDocumento;
                 this.email = result.data.Email;
                 this.telefono = result.data.Telefono;
             });
@@ -150,9 +156,9 @@ export default {
                 this.nombres = '',
                 this.apellidos = '',
                 this.edad = '';
-                this.tipodocumento = '',
-                this.numerodocumento = '',
-                this.emai = '',
+                this.tipoDocumento = '',
+                this.numeroDocumento = '',
+                this.email = '',
                 this.telefono = '';
         },
 
