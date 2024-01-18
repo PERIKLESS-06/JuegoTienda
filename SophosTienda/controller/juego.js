@@ -39,31 +39,46 @@ module.exports = {
       .then(juegos => res.status(200).send(juegos))
       .catch(error => res.status(400).send(error));
   },
+// Buscar un juego por ID
+// Buscar un juego por ID
+findByID(req, res) {
+  const { id } = req.params;
 
-  // Buscar un juego por ID o nombre
-  find(req, res) {
-    const { identifier } = req.params;
-    const isNumeric = /^\d+$/.test(identifier);
-    const whereClause = isNumeric ? { id: identifier } : { Nombre: identifier };
+  return Juego
+    .findByPk(id)
+    .then(juego => {
+      if (!juego) {
+        return res.status(404).send({ message: 'Juego no encontrado' });
+      }
+      return res.status(200).send(juego);
+    })
+    .catch(error => res.status(400).send(error));
+},
 
-    return Juego
-      .findOne({
-        where: whereClause,
-      })
-      .then(juego => {
-        if (!juego) {
-          return res.status(404).send({ message: 'Juego no encontrado' });
-        }
-        return res.status(200).send(juego);
-      })
-      .catch(error => res.status(400).send(error));
-  },
+// Buscar un juego por nombre
+findByName(req, res) {
+  const { nombre } = req.params;
+
+  return Juego
+    .findOne({
+      where: { Nombre: nombre },
+    })
+    .then(juego => {
+      if (!juego) {
+        return res.status(404).send({ message: 'Juego no encontrado' });
+      }
+      return res.status(200).send(juego);
+    })
+    .catch(error => res.status(400).send(error));
+},
+
+
 
   // Actualizar un juego
   updateJuego(req, res) {
     const { identifier } = req.params;
     const {
-      new_nombre,
+      nombre,
       descripcion,
       protagonista,
       precio,
@@ -77,14 +92,14 @@ module.exports = {
     const isNumeric = /^\d+$/.test(identifier);
     const whereClause = isNumeric ? { id: identifier } : { Nombre: identifier };
 
-    if (new_nombre) {
-      Juego.findOne({ where: { Nombre: new_nombre } })
+    if (nombre) {
+      Juego.findOne({ where: { Nombre: nombre } })
         .then(existingJuego => {
           if (existingJuego && existingJuego.id !== Number(identifier)) {
             return res.status(400).send({ message: 'Ya existe un juego con el nuevo nombre' });
           } else {
             Juego.update({
-              Nombre: new_nombre,
+              Nombre: nombre,
               Descripcion: descripcion,
               Protagonista: protagonista,
               Precio: precio,
@@ -108,7 +123,7 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     } else {
       Juego.update({
-        Nombre: new_nombre,
+        Nombre: nombre,
         Descripcion: descripcion,
         Protagonista: protagonista,
         Precio: precio,

@@ -24,7 +24,7 @@ module.exports = {
         attributes: ['cliente_id', [Sequelize.fn('COUNT', 'cliente_id'), 'count']],
         group: ['cliente_id'],
         order: [[Sequelize.literal('count'), 'DESC']],
-        limit: 1,
+        limit: 5,
         include: [Cliente]
       })
       .then(result => res.status(200).send(result))
@@ -37,50 +37,55 @@ module.exports = {
         attributes: ['juego_id', [Sequelize.fn('COUNT', 'juego_id'), 'count']],
         group: ['juego_id'],
         order: [[Sequelize.literal('count'), 'DESC']],
-        limit: 1,
+        limit: 5,
         include: [Juego]
       })
       .then(result => res.status(200).send(result))
       .catch(error => res.status(400).send(error));
   },
-
-  rentGame(req, res) {
-    const { cliente_id, juego_id, FechaAlquiler, FechaEntrega, Precio } = req.body;
-
-    return Alquiler
-      .create({
-        cliente_id,
-        juego_id,
-        FechaAlquiler,
-        FechaEntrega,
-        Precio
-      })
-      .then(alquiler => {
-        // Aquí puedes implementar la lógica para generar la prueba de compra
-        // Puedes devolver la prueba de compra en la respuesta
-        res.status(201).send(alquiler);
-      })
+  getLeastRentedGameByAge(_, res) {
+    return Alquiler.findAll({
+      attributes: [
+        'juego_id',
+        [Sequelize.fn('COUNT', 'juego_id'), 'count'],
+        [Sequelize.literal('(Cliente.Edad / 10) * 10'), 'edad_rango'], // Agrupa por rango de edad de 10 en 10 años
+      ],
+      include: [{
+        model: Cliente,
+        attributes: [], // No seleccionamos campos de Cliente directamente
+      }, Juego],
+      group: ['juego_id', 'edad_rango'],
+      order: [[Sequelize.literal('count'), 'ASC']],
+      limit: 1,
+    })
+      .then(result => res.status(200).send(result))
       .catch(error => res.status(400).send(error));
   },
 
-  getDailySales(_, res) {
-    const today = new Date();
-    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-
-    return Alquiler
-      .findAll({
-        where: {
-          FechaAlquiler: {
-            [Sequelize.Op.between]: [startOfDay, endOfDay]
-          }
+  getAlquileresPorClienteId (req, res){
+    const { cliente_id } = req.params;
+  
+    Alquiler.findAll({
+      where: { cliente_id },
+      include: [
+        {
+          model: Cliente,
+          attributes: ['Nombres', 'Apellidos', 'Edad'], // Ajusta los campos según tus necesidades
         },
-        include: [Juego]
+        {
+          model: Juego,
+          attributes: ['Nombre', 'Descripcion', 'Precio', 'Plataforma'], // Ajusta los campos según tus necesidades
+        },
+      ],
+    })
+      .then((alquileres) => {
+        res.status(200).json(alquileres);
       })
-      .then(result => res.status(200).send(result))
-      .catch(error => res.status(400).send(error));
+      .catch((error) => {
+        console.error('Error al obtener alquileres por cliente:', error);
+        res.status(500).send('Error interno del servidor');
+      });
   },
-
   // Obtener la lista de todos los alquileres
   list(_, res) {
     return Alquiler
