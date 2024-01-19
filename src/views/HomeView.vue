@@ -1,7 +1,8 @@
 <template>
   <div class="text-center">
     <div class="card mb-3 position-relative">
-      <img src="https://images.unsplash.com/photo-1581351123004-757df051db8e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      <img
+        src="https://images.unsplash.com/photo-1581351123004-757df051db8e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         class="card-img" alt="Card image" style="height: 750px; object-fit: cover;">
       <div class="card-img-overlay d-flex align-items-center">
         <div class="container text-white text-center">
@@ -23,11 +24,13 @@
         </div>
 
         <input type="hidden" v-model="id">
-        
+
         <div class="d-flex justify-content-between align-items-center">
-          <button @click="prevSlide" class="btn btn-secondary align-self-center" style="margin-right: 30px;">Anterior</button>
+          <button @click="prevSlide" class="btn btn-secondary align-self-center"
+            style="margin-right: 30px;">Anterior</button>
           <div class="card-container d-flex flex-wrap justify-content-center">
-            <div v-for="(game, index) in visibleGames" :key="index" class="card mb-3" style="width: 18rem; margin: 0 10px;">
+            <div v-for="(game, index) in visibleGames" :key="index" class="card mb-3"
+              style="width: 18rem; margin: 0 10px;">
               <img :src="game.Imagen" class="card-img-top" alt="Game Image">
               <div class="card-body">
                 <h5 class="card-title">{{ game.Nombre }}</h5>
@@ -38,7 +41,8 @@
               </div>
             </div>
           </div>
-          <button @click="nextSlide" class="btn btn-secondary align-self-center" style="margin-left: 30px;">Siguiente</button>
+          <button @click="nextSlide" class="btn btn-secondary align-self-center"
+            style="margin-left: 30px;">Siguiente</button>
         </div>
       </div>
     </div>

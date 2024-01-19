@@ -41,10 +41,10 @@
                     <td>{{ juegoAlquilado.Precio }}</td>
                   </tr>
                   <tr v-if="juegosAlquilados.length > 0">
-  <td></td>
-  <td><strong>Balance Total:</strong></td>
-  <td><strong>{{ calcularBalanceTotal() }}</strong></td>
-</tr>
+                    <td></td>
+                    <td><strong>Balance Total:</strong></td>
+                    <td><strong>{{ calcularBalanceTotal() }}</strong></td>
+                  </tr>
                 </tbody>
               </table>
             </div>

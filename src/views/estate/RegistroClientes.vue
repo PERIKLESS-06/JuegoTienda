@@ -66,7 +66,7 @@
                                     <td>{{ item.TipoDocumento }}</td>
                                     <td>{{ item.NumeroDocumento }}</td>
                                     <td>{{ item.Email }}</td>
-                                    <td>{{ item.Telefono}}</td>
+                                    <td>{{ item.Telefono }}</td>
                                     <!-- boton para obtener el id de cada registro -->
                                     <td><button @click="findByid(item.id)" class="btn btn-info">Editar</button></td>
                                     <td><button @click="deleteById(item.id)" class="btn btn-danger">Eliminar</button></td>
@@ -156,7 +156,7 @@ export default {
                 this.nombres = '',
                 this.apellidos = '',
                 this.edad = '';
-                this.tipoDocumento = '',
+            this.tipoDocumento = '',
                 this.numeroDocumento = '',
                 this.email = '',
                 this.telefono = '';
@@ -180,7 +180,7 @@ export default {
                         NumeroDocumento: this.numeroDocumento,
                         Email: this.email,
                         Telefono: this.telefono
-                        
+
                     };
                     axios.post('http://localhost:3000/api/cliente/create', data).then(result => {
                         if (result.data) {

@@ -34,7 +34,7 @@
                     <input type="date" class="form-control sizeText mb-3" v-model="fechaEntrega"
                         @change="calcularPrecioTotal" />
                 </div>
-                
+
                 <!-- botones de gestión para Agregar o Modificar -->
                 <div class="row justify-content-center mt-4">
                     <div class="col-md-4 mb-2">
@@ -57,7 +57,6 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-
 export default {
     name: 'AlquileresS',
     data() {
@@ -79,18 +78,19 @@ export default {
         this.loadData();
     },
     methods: {
+        // Función para cargar datos del juego seleccionado
         loadData() {
             const nombreJuego = this.$route.query.nombre.trim();
-    axios
-    .get(`http://localhost:3000/api/juego/findByName/${nombreJuego}`)
-        // Asegúrate de agregar la barra diagonal y el parámetro :nombre
-        .then((result) => {
-            this.juegoSeleccionado = result.data;
-        })
-        .catch((error) => {
-            console.error('Error al cargar datos del juego:', error);
-        });
-},
+            axios
+                .get(`http://localhost:3000/api/juego/findByName/${nombreJuego}`)
+                .then((result) => {
+                    this.juegoSeleccionado = result.data;
+                })
+                .catch((error) => {
+                    console.error('Error al cargar datos del juego:', error);
+                });
+        },
+        // Función para calcular el precio total del alquiler
         calcularPrecioTotal() {
             if (this.juegoSeleccionado && this.fechaEntrega) {
                 const precioBase = parseFloat(this.juegoSeleccionado.Precio) || 0;
@@ -103,6 +103,7 @@ export default {
                 this.precioTotal = 0;
             }
         },
+        // Función para cargar datos del cliente por su número de documento
         loadCedula() {
             this.errorCedula = null;
             this.clienteIdSeleccionado = null;
@@ -125,7 +126,6 @@ export default {
                         if (error.response && error.response.status === 404) {
                             this.errorCedula = 'Cliente no encontrado';
                         } else {
-                            // Manejar otros errores aquí, si es necesario
                             console.error('Error desconocido al cargar datos del cliente:', error);
                         }
                     });
@@ -133,6 +133,7 @@ export default {
                 this.datosClientes = null;
             }
         },
+        // Función para agregar un nuevo alquiler
         addAlquiler() {
             if (this.clienteIdSeleccionado && this.fechaEntrega && !this.errorCedula) {
                 Swal.fire({
@@ -159,7 +160,6 @@ export default {
                             })
                             .catch((error) => {
                                 console.error('Error al guardar el registro:', error);
-                                // Puedes mostrar un mensaje de error al usuario si es necesario
                                 Swal.fire('Error al guardar el registro', '', 'error');
                             });
                     } else if (result.isDenied) {
@@ -170,6 +170,7 @@ export default {
                 Swal.fire('Complete la información del cliente y la fecha de entrega', '', 'warning');
             }
         },
+        // Función para cancelar el proceso de alquiler
         cancelarAlquiler() {
             this.$router.push({ name: 'home' });
         },
