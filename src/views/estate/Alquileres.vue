@@ -34,6 +34,7 @@
                     <input type="date" class="form-control sizeText mb-3" v-model="fechaEntrega"
                         @change="calcularPrecioTotal" />
                 </div>
+                
                 <!-- botones de gestión para Agregar o Modificar -->
                 <div class="row justify-content-center mt-4">
                     <div class="col-md-4 mb-2">
@@ -55,6 +56,7 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
+
 
 export default {
     name: 'AlquileresS',
@@ -78,15 +80,17 @@ export default {
     },
     methods: {
         loadData() {
-            axios
-                .get(`http://localhost:3000/api/juego/find/${this.$route.query.nombre}`)
-                .then((result) => {
-                    this.juegoSeleccionado = result.data;
-                })
-                .catch((error) => {
-                    console.error('Error al cargar datos del juego:', error);
-                });
-        },
+            const nombreJuego = this.$route.query.nombre.trim();
+    axios
+    .get(`http://localhost:3000/api/juego/findByName/${nombreJuego}`)
+        // Asegúrate de agregar la barra diagonal y el parámetro :nombre
+        .then((result) => {
+            this.juegoSeleccionado = result.data;
+        })
+        .catch((error) => {
+            console.error('Error al cargar datos del juego:', error);
+        });
+},
         calcularPrecioTotal() {
             if (this.juegoSeleccionado && this.fechaEntrega) {
                 const precioBase = parseFloat(this.juegoSeleccionado.Precio) || 0;
@@ -187,4 +191,3 @@ export default {
     font-size: 30px;
 }
 </style>
-  

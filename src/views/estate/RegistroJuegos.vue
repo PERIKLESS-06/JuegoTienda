@@ -126,7 +126,7 @@ export default {
             });
         },
         findByid: function (id) {
-            axios.get('http://localhost:3000/api/juego/find/' + id).then(result => {
+            axios.get('http://localhost:3000/api/juego/findById/' + id).then(result => {
                 this.id = result.data.id;
                 this.nombre = result.data.Nombre;
                 this.descripcion = result.data.Descripcion;
